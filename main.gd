@@ -11,7 +11,7 @@ var score_label = Label.new()
 var snake = Snake.new(Vector2(10, 10), 3)
 
 class Snake extends Node2D:
-    var dead = false
+    var dead = true
     var cells = []
     var food
     var dir = RIGHT
@@ -100,30 +100,27 @@ class Snake extends Node2D:
                          Color(0, 1, 0))
 
 func _ready():
-    label.text = "Game Over!\nEnter to restart"
+    label.text = "Click to start"
     label.rect_position = Vector2(W*SIZE/2 - 30, H*SIZE/2)
     label.add_color_override("font_color", Color(1,0,0))
-    label.visible = false
-
-    print("Coucou")
+    label.visible = true
+    add_child(label)
     score_label.rect_position = Vector2(10, H*SIZE + 20)
-
-    init_snake()
 
 func init_snake():
     snake = Snake.new(Vector2(10, 10), 3)
     snake.position = Vector2(10, 10)
+    snake.dead = false
     add_child(snake)
-    add_child(label)
     add_child(score_label)
 
-func _update(delta):
-    label.visible = snake.dead
-    if snake.dead:
-        if Input.is_action_pressed('ui_accept'):
-            remove_child(snake)
-            remove_child(label)
-            remove_child(score_label)
-            init_snake()
+func _input(event):
+    if snake.dead and event is InputEventMouseButton:
+        label.text = "Game Over!\nEnter or click to restart"
+        remove_child(snake)
+        remove_child(score_label)
+        init_snake()
 
+func _process(delta):
+    label.visible = snake.dead
     score_label.text = "Score: %s" % snake.score
