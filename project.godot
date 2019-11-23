@@ -16,13 +16,13 @@ _global_script_class_icons={
 [application]
 
 config/name="Snake"
-run/main_scene="res://main.tscn"
+run/main_scene="res://Spatial.tscn"
 config/icon="res://icon.png"
 
 [display]
 
-window/size/width=420
-window/size/height=350
+window/size/width=840
+window/size/height=700
 
 [rendering]
 
